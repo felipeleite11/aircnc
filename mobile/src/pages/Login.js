@@ -6,6 +6,7 @@ import logo from '../../assets/logo.png'
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('felipe@robot.rio.br')
     const [techs, setTechs] = useState('Node, C#, PHP')
+    const [ip, setIp] = useState('192.168.43.46:3333')
 
     useEffect(() => {
         AsyncStorage.removeItem('user')
@@ -23,12 +24,10 @@ export default function Login({ navigation }) {
     }, [])
 
     async function handleSubmit() {
-        //console.log(email, techs)
-
         await AsyncStorage.setItem('user', String(1))
         await AsyncStorage.setItem('techs', techs)
 
-        navigation.navigate('List')
+        navigation.navigate('List', { ip })
     }
 
     return (
@@ -54,6 +53,17 @@ export default function Login({ navigation }) {
                     placeholder="Tecnologias de interesse"
                     placeholderTextColor="#999"
                     autoCapitalize="words"
+                    autoCorrect={false}
+                    value={techs}
+                    onChangeText={setTechs}
+                />
+
+                <Text style={styles.label}>IP da API</Text>
+                <TextInput 
+                    style={styles.input}
+                    keyboardType="numeric"
+                    placeholder="0.0.0.0"
+                    placeholderTextColor="#999"
                     autoCorrect={false}
                     value={techs}
                     onChangeText={setTechs}

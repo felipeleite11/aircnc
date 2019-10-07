@@ -6,6 +6,8 @@ import logo from '../../assets/logo.png'
 import SpotList from '../components/SpotList'
 
 export default function List() {
+    const ip = navigation.getParam('ip')
+    
     const [techs, setTechs] = useState([])
 
     useEffect(() => {
@@ -26,6 +28,7 @@ export default function List() {
                     <SpotList
                         key={tech}
                         tech={tech}
+                        ip={ip}
                     />
                 ))}
             </ScrollView>

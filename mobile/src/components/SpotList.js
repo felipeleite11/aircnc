@@ -2,44 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { withNavigation } from 'react-navigation'
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
 
-function SpotList({ tech, navigation }) {
+import api from '../services/api'
+
+function SpotList({ ip, tech, navigation }) {
     const [spots, setSpots] = useState([])
 
     useEffect(() => {
         async function loadSpots() {
             //USAR A PROPERTY tech PARA BUSCAR NA API A LISTA DE SPOTS
-
-            //MOCK DE DADOS
-            setSpots([
-                { 
-                    _id: '1',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                },
-                { 
-                    _id: '2',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                },
-                { 
-                    _id: '3',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                },
-                { 
-                    _id: '4',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                },
-                { 
-                    _id: '5',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                },
-                { 
-                    _id: '6',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                },
-                { 
-                    _id: '7',
-                    thumbnail_url: 'https://live.staticflickr.com/201/511016492_29004afb95_z.jpg'
-                }
-            ])
+            const spots = await api.get(`http://${ip}/spots`)
+            setSpots(spots.data)
         }
 
         loadSpots()
@@ -64,7 +36,7 @@ function SpotList({ tech, navigation }) {
                     <View style={styles.listItem}>
                         <Image source={{ uri: item.thumbnail_url }} style={styles.thumbnail} />
                         <Text style={styles.company}>{item.company}</Text>
-                        <Text style={styles.price}>{item.price ? `R$${price}/dia` : 'GRATUITO'}</Text>
+                        <Text style={styles.price}>{item.price ? `R$${item.price}/dia` : 'GRATUITO'}</Text>
                         <TouchableOpacity style={styles.button} onPress={() => handleNavigate(item._id)}>
                             <Text style={styles.buttonText}>Solicitar reserva</Text>
                         </TouchableOpacity>
